@@ -1,56 +1,54 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
-  <title>Δtlantis | Home</title>
-  <link rel="stylesheet" href="css/style.css">
-  <style>
-    /* Add this to your style.css or keep as internal style */
-    .nav-button, .freq-button {
-      display: inline-block;
-      padding: 10px 20px;
-      margin: 0 5px;
-      color: white;
-      text-decoration: none;
-      font-family: 'Your-Font-Here', sans-serif; /* Match your site font */
-      background-color: #1a1a2e; /* Dark blue-gray - adjust to match your theme */
-      border: 2px solid #4cc9f0; /* Light blue border - adjust color */
-      border-radius: 5px;
-      transition: all 0.3s ease;
-      text-transform: uppercase; /* If your other buttons are uppercase */
-      letter-spacing: 1px; /* If your other buttons have letter spacing */
-    }
-
-    .nav-button:hover, .freq-button:hover {
-      background-color: #16213e; /* Slightly lighter on hover */
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(76, 201, 240, 0.3); /* Glow effect */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Δtlantis | Home</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <nav>
- <nav>
-  <a href="writings.html" class="nav-button">Writings</a>
-  <a href="staging.html" class="nav-button">Staging Δrea</a>
-  <a href="sigils.html" class="nav-button">Sigil Generator</a>
-  <a href="font.html" class="nav-button">Atlantean Font</a>
-  <a href="frequency.html" class="nav-button">Frequency</a>
-  <!-- Fixed Tone Generator button - changed class to nav-button -->
-  <a href="frequencies.html" class="nav-button">Tone Generator</a>
-  <a href="contact.html" class="nav-button">Contact</a>
-  <a href="file:///home/smithsonian101/portfolio-site/staging.htm" 
-   class="nav-button"
-   target="_blank">
-   Staging Δrea
-  <a href="typing.html" class="nav-button">Typing Workspace</a>
-</a><!-- Option A: Relative path (if in same project) -->
-<a href="../portfolio-site/staging.htm" class="nav-button">Staging Δrea</a>
-<a href="http://localhost:8000/staging.htm" class="nav-button-">Staging Δrea</a>
-<!-- Option B: Serve via local server -->
-<a href="http://localhost:8000/staging.htm" class="nav-button">Staging Δrea</a>
-</nav>
-  </nav>
+    <nav>
+        <a href="index.html" class="nav-button active">Home</a>
+        <a href="staging.html" class="nav-button">Staging Δrea</a>
+        <a href="sigils.html" class="nav-button">Sigil Generator</a>
+        <a href="frequencies.html" class="nav-button">Tone Generator</a>
+        <a href="typing.html" class="nav-button">Typing Workspace</a>
+    </nav>
+
+    <main class="content">
+        <h1>Welcome to Atlantis</h1>
+        
+        <section class="intro">
+            <p>Your portal to esoteric development and experimentation.</p>
+        </section>
+
+        <section class="quick-links">
+            <h2>Tools</h2>
+            <div class="tool-grid">
+                <a href="sigils.html" class="tool-card">
+                    <h3>Sigil Generator</h3>
+                    <p>Create symbolic designs</p>
+                </a>
+                <a href="frequencies.html" class="tool-card">
+                    <h3>Tone Generator</h3>
+                    <p>Audio frequency mixer</p>
+                </a>
+                <a href="typing.html" class="tool-card">
+                    <h3>Typing Workspace</h3>
+                    <p>Document creation</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Simple active link highlighting
+        document.querySelectorAll('.nav-button').forEach(button => {
+            if(button.href === window.location.href) {
+                button.classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
