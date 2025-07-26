@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Tone Frequency Mixer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .frequency-control {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .frequency-input {
+            flex: 1;
+            min-width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            position: relative;
+        }
+        .frequency-input h3 {
+            margin-top: 0;
+            color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .ratio-box {
+            position: absolute;
+            width: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+        .ratio-box.left {
+            left: -70px;
+            text-align: right;
+        }
+        .ratio-box.right {
+            right: -70px;
+            text-align: left;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #3498db;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Tone Frequency Mixer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .frequency-control {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .frequency-input {
+            flex: 1;
+            min-width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            position: relative;
+        }
+        .frequency-input h3 {
+            margin-top: 0;
+            color: #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .ratio-box {
+            position: absolute;
+            width: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+        .ratio-box.left {
+            left: -70px;
+            text-align: right;
+        }
+        .ratio-box.right {
+            right: -70px;
+            text-align: left;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #3498db;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        .visualizer {
+            margin-top: 30px;
+            height: 100px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+        .slider-container {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Frequency Mixer</h1>
+        
+        <div class="frequency-control">
+            <!-- Frequency 1 -->
+            <div class="ratio-box left">
+                <input type="text" id="ratio1left" value="1" placeholder="Ratio">
+            </div>
+            
+            <div class="frequency-input">
+                <h3>
+                    <span>Base Frequency</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle1" checked>
+                        <span class="slider"></span>
+                    </label>
+                </h3>
+                <input type="number" id="freq1" min="20" max="20000" step="0.1" value="440.0" placeholder="Hz">
+                <div class="slider-container">
+                    <input type="range" id="freq1Range" min="20" max="2000" step="1" value="440">
+                </div>
+            </div>
+            
+            <div class="ratio-box right">
+                <input type="text" id="ratio1right" value="1" placeholder="Ratio">
+            </div>
+            
+            <!-- Frequency 2 -->
+            <div class="ratio-box left">
+                <input type="text" id="ratio2left" value="2" placeholder="Ratio">
+            </div>
+            
+            <div class="frequency-input">
+                <h3>
+                    <span>Frequency 2</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle2">
+                        <span class="slider"></span>
+                    </label>
+                </h3>
+                <input type="number" id="freq2" min="20" max="20000" step="0.1" value="880.0" placeholder="Hz">
+                <div class="slider-container">
+                    <input type="range" id="freq2Range" min="20" max="2000" step="1" value="880">
+                </div>
+            </div>
+            
+            <div class="ratio-box right">
+                <input type="text" id="ratio2right" value="1" placeholder="Ratio">
+            </div>
+            
+            <!-- Frequency 3 -->
+            <div class="ratio-box left">
+                <input type="text" id="ratio3left" value="3" placeholder="Ratio">
+            </div>
+            
+            <div class="frequency-input">
+                <h3>
+                    <span>Frequency 3</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="toggle3">
+                        <span class="slider"></span>
+                    </label>
+                </h3>
+                <input type="number" id="freq3" min="20" max="20000" step="0.1" value="1320.0" placeholder="Hz">
+                <div class="slider-container">
+                    <input type="range" id="freq3Range" min="20" max="2000" step="1" value="1320">
+                </div>
+            </div>
+            
+            <div class="ratio-box right">
+                <input type="text" id="ratio3right" value="1" placeholder="Ratio">
+            </div>
+        </div>
+        
+        <div class="visualizer">
+            <canvas id="oscilloscope"></canvas>
+        </div>
+        
+        <div class="controls">
+            <button id="playBtn">Play</button>
+            <button id="stopBtn" disabled>Stop</button>
+            <button id="updateBtn">Update Ratios</button>
+        </div>
+    </div>
+
+    <script>
+        // Audio context setup
+        let audioContext;
+        let oscillator1, oscillator2, oscillator3;
+        let gainNode1, gainNode2, gainNode3;
+        let analyser;
+        let isPlaying = false;
+        let canvas, canvasCtx;
+        
+        // Initialize when page loads
+        window.addEventListener('load', function() {
+            setupAudio();
+            setupVisualizer();
+            setupEventListeners();
+            updateRatios(); // Initialize frequency ratios
+        });
+        
+        function setupAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create analyser for visualization
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 2048;
+                
+                // Create gain nodes for each oscillator
+                gainNode1 = audioContext.createGain();
+                gainNode2 = audioContext.createGain();
+                gainNode3 = audioContext.createGain();
+                
+                // Connect gain nodes to analyser and destination
+                gainNode1.connect(analyser);
+                gainNode2.connect(analyser);
+                gainNode3.connect(analyser);
+                analyser.connect(audioContext.destination);
+                
+                // Initial gain values (volume)
+                gainNode1.gain.value = 0.5;
+                gainNode2.gain.value = 0.5;
+                gainNode3.gain.value = 0.5;
+            } catch(e) {
+                alert('Web Audio API is not supported in this browser');
+            }
+        }
+        
+        function setupVisualizer() {
+            canvas = document.getElementById('oscilloscope');
+            canvasCtx = canvas.getContext('2d');
+            
+            // Set canvas dimensions
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // Start visualization
+            if (analyser) {
+                requestAnimationFrame(draw);
+            }
+        }
+        
+        function draw() {
+            if (!isPlaying) {
+                canvasCtx.fillStyle = '#f8f9fa';
+                canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+                requestAnimationFrame(draw);
+                return;
+            }
+            
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteTimeDomainData(dataArray);
+            
+            canvasCtx.fillStyle = '#f8f9fa';
+            canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            canvasCtx.lineWidth = 2;
+            canvasCtx.strokeStyle = '#3498db';
+            canvasCtx.beginPath();
+            
+            const sliceWidth = canvas.width * 1.0 / bufferLength;
+            let x = 0;
+            
+            for(let i = 0; i < bufferLength; i++) {
+                const v = dataArray[i] / 128.0;
+                const y = v * canvas.height / 2;
+                
+                if(i === 0) {
+                    canvasCtx.moveTo(x, y);
+                } else {
+                    canvasCtx.lineTo(x, y);
+                }
+                
+                x += sliceWidth;
+            }
+            
+            canvasCtx.lineTo(canvas.width, canvas.height/2);
+            canvasCtx.stroke();
+            
+            requestAnimationFrame(draw);
+        }
+        
+        function setupEventListeners() {
+            // Input fields
+            document.getElementById('freq1').addEventListener('input', updateFrequency1);
+            document.getElementById('freq2').addEventListener('input', updateFrequency2);
+            document.getElementById('freq3').addEventListener('input', updateFrequency3);
+            
+            // Sliders
+            document.getElementById('freq1Range').addEventListener('input', function() {
+                document.getElementById('freq1').value = this.value;
+                updateFrequency1();
+            });
+            document.getElementById('freq2Range').addEventListener('input', function() {
+                document.getElementById('freq2').value = this.value;
+                updateFrequency2();
+            });
+            document.getElementById('freq3Range').addEventListener('input', function() {
+                document.getElementById('freq3').value = this.value;
+                updateFrequency3();
+            });
+            
+            // Toggle switches
+            document.getElementById('toggle1').addEventListener('change', toggleFrequency1);
+            document.getElementById('toggle2').addEventListener('change', toggleFrequency2);
+            document.getElementById('toggle3').addEventListener('change', toggleFrequency3);
+            
+            // Ratio inputs
+            document.querySelectorAll('.ratio-box input').forEach(input => {
+                input.addEventListener('input', updateRatios);
+            });
+            
+            // Buttons
+            document.getElementById('playBtn').addEventListener('click', startPlayback);
+            document.getElementById('stopBtn').addEventListener('click', stopPlayback);
+            document.getElementById('updateBtn').addEventListener('click', updateRatios);
+        }
+        
+        function updateRatios() {
+            try {
+                const baseFreq = parseFloat(document.getElementById('freq1').value);
+                
+                // Calculate frequency 2 based on ratios
+                const ratio2left = eval(document.getElementById('ratio2left').value) || 2;
+                const ratio2right = eval(document.getElementById('ratio2right').value) || 1;
+                const freq2 = baseFreq * (ratio2left / ratio2right);
+                document.getElementById('freq2').value = freq2.toFixed(1);
+                document.getElementById('freq2Range').value = freq2;
+                
+                // Calculate frequency 3 based on ratios
+                const ratio3left = eval(document.getElementById('ratio3left').value) || 3;
+                const ratio3right = eval(document.getElementById('ratio3right').value) || 1;
+                const freq3 = baseFreq * (ratio3left / ratio3right);
+                document.getElementById('freq3').value = freq3.toFixed(1);
+                document.getElementById('freq3Range').value = freq3;
+                
+                // Update frequencies if playing
+                if (isPlaying) {
+                    if (oscillator1) oscillator1.frequency.setValueAtTime(baseFreq, audioContext.currentTime);
+                    if (oscillator2) oscillator2.frequency.setValueAtTime(freq2, audioContext.currentTime);
+                    if (oscillator3) oscillator3.frequency.setValueAtTime(freq3, audioContext.currentTime);
+                }
+            } catch(e) {
+                console.error("Error in ratio calculation:", e);
+            }
+        }
+        
+        function toggleFrequency1() {
+            const isActive = document.getElementById('toggle1').checked;
+            gainNode1.gain.value = isActive ? 0.5 : 0;
+        }
+        
+        function toggleFrequency2() {
+            const isActive = document.getElementById('toggle2').checked;
+            gainNode2.gain.value = isActive ? 0.5 : 0;
+        }
+        
+        function toggleFrequency3() {
+            const isActive = document.getElementById('toggle3').checked;
+            gainNode3.gain.value = isActive ? 0.5 : 0;
+        }
+        
+        function updateFrequency1() {
+            const freq = parseFloat(document.getElementById('freq1').value);
+            document.getElementById('freq1Range').value = freq;
+            updateRatios(); // Update dependent frequencies
+            if (oscillator1 && isPlaying) {
+                oscillator1.frequency.setValueAtTime(freq, audioContext.currentTime);
+            }
+        }
+        
+        function updateFrequency2() {
+            const freq = parseFloat(document.getElementById('freq2').value);
+            document.getElementById('freq2Range').value = freq;
+            if (oscillator2 && isPlaying) {
+                oscillator2.frequency.setValueAtTime(freq, audioContext.currentTime);
+            }
+        }
+        
+        function updateFrequency3() {
+            const freq = parseFloat(document.getElementById('freq3').value);
+            document.getElementById('freq3Range').value = freq;
+            if (oscillator3 && isPlaying) {
+                oscillator3.frequency.setValueAtTime(freq, audioContext.currentTime);
+            }
+        }
+        
+        function startPlayback() {
+            if (isPlaying) return;
+            
+            // Create oscillators only for active frequencies
+            if (document.getElementById('toggle1').checked) {
+                oscillator1 = audioContext.createOscillator();
+                oscillator1.frequency.setValueAtTime(parseFloat(document.getElementById('freq1').value), audioContext.currentTime);
+                oscillator1.type = 'sine';
+                oscillator1.connect(gainNode1);
+                oscillator1.start();
+            }
+            
+            if (document.getElementById('toggle2').checked) {
+                oscillator2 = audioContext.createOscillator();
+                oscillator2.frequency.setValueAtTime(parseFloat(document.getElementById('freq2').value), audioContext.currentTime);
+                oscillator2.type = 'sine';
+                oscillator2.connect(gainNode2);
+                oscillator2.start();
+            }
+            
+            if (document.getElementById('toggle3').checked) {
+                oscillator3 = audioContext.createOscillator();
+                oscillator3.frequency.setValueAtTime(parseFloat(document.getElementById('freq3').value), audioContext.currentTime);
+                oscillator3.type = 'sine';
+                oscillator3.connect(gainNode3);
+                oscillator3.start();
+            }
+            
+            isPlaying = true;
+            document.getElementById('playBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+        }
+        
+        function stopPlayback() {
+            if (!isPlaying) return;
+            
+            if (oscillator1) oscillator1.stop();
+            if (oscillator2) oscillator2.stop();
+            if (oscillator3) oscillator3.stop();
+            
+            // Disconnect nodes
+            if (oscillator1) oscillator1.disconnect();
+            if (oscillator2) oscillator2.disconnect();
+            if (oscillator3) oscillator3.disconnect();
+            
+            // Reset references
+            oscillator1 = null;
+            oscillator2 = null;
+            oscillator3 = null;
+            
+            isPlaying = false;
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+        }
+    </script>
+</body>
+</html>
