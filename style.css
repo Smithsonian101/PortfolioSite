@@ -1,0 +1,14 @@
+/* Portfolio Section */
+#portfolio {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.project {
+    background: rgba(26, 26, 46, 0.7);
+    border: 1px solid #4cc9f0;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+}
